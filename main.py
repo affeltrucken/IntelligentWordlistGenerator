@@ -3,7 +3,7 @@
 __author__ = "Aldin Smajlovic"
 __version__ = "1.0"
 
-import json
+from json import load, dumps
 from colorama import Fore
 from time import time
 from os import system, name, path
@@ -435,10 +435,10 @@ def saveConfig():
         accept_warning = yesNoPrompt(f"""\n\n{LIGHT_RED} Warning. This will overwrite the current config file(s).
  Continue? (y/N) """, "n")
         if accept_warning:
-            config_json = json.dumps(temp_keys, indent = 4)
+            config_json = dumps(temp_keys, indent = 4)
             with open ("password_keys.json", "w") as config:
                 config.write(config_json)
-            rules_json = json.dumps(password_requirements, indent = 4)
+            rules_json = dumps(password_requirements, indent = 4)
             with open ("password_requirements.json", "w") as rules:
                 rules.write(rules_json)
             print(f"{GREEN}\n  Config saved successfully")
@@ -449,13 +449,13 @@ def loadConfig():
     if path.exists(".\\password_requirements.json"):
         with open("password_requirements.json", "r", encoding="utf-8") as rules:
             global password_requirements
-            password_requirements = json.load(rules)
+            password_requirements = load(rules)
             print(f"{GREEN}\n  Password requirements loaded from password_requirements.json.{WHITE}")
     else:
         print(f"{RED}\n  password_requirements.json not found.{WHITE}")
     if path.exists(".\\password_keys.json"):
         with open("password_keys.json", "r", encoding="utf-8") as config:
-            keywords = json.load(config)
+            keywords = load(config)
             if keywords["birth"]:
                 keywords["birth"] = formatDate(keywords["birth"])
             if keywords["partner_birth"]:

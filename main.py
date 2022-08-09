@@ -4,6 +4,7 @@ __author__ = "Aldin Smajlovic"
 __version__ = "1.0"
 
 from json import load, dumps
+from turtle import clear
 from colorama import Fore
 from time import time
 from os import system, name, path
@@ -88,7 +89,7 @@ f"{CYAN}- Relatives\n    {WHITE}Some people use close relatives in their passwor
 f"{CYAN}- months \n    {WHITE}A lot of people use words related to a time of year, \n    like a season.\n",
 f"{CYAN}- Games and shows \n    {WHITE}People like to use their favorite games, TV-shows, or \n    characters when creating passwords.\n",
 f"{CYAN}- Animals \n    {WHITE}Try to use an animal as a keyword.\n",
-f"{CYAN}- Sports teams \n    {WHITE}Football or basketball teams and sports are commonly \n    used.",
+f"{CYAN}- Sports teams \n    {WHITE}Football or basketball teams and sports are commonly \n    used.\n",
 f"{CYAN}- The platform \n    {WHITE}Keywords related to the platform that the user created \n    an account on might be used.\n",
 f"{CYAN}- Artits and bands \n    {WHITE}Try the persons favorite bands/artists.\n",
 f"{CYAN}- Company \n    {WHITE}The company the given person works at or something \n    related might be in the password.\n"
@@ -177,6 +178,7 @@ def formatDate(date_string):
         date = datetime.strptime(date_string, "%Y-%m-%d")
         return date
     except ValueError:
+        print(f" {RED}Error while formatting date.")
         return date_string
 
 
@@ -504,7 +506,7 @@ def editConfig():
         clearConsole()
         printConfig()
         print(f"\n{YELLOW} Enter 'c' to confirm options.")
-        option = input(f"{WHITE}\n\n Option: ")
+        option = input(f"{WHITE}\n\n Option: {YELLOW}")
         if option in keywords.keys():
             keywords[option] = input(f"\n {WHITE}Value: ")
             if option in ["partner_birth", "birth"]:
@@ -577,8 +579,12 @@ def checkMenuOption(option):
             writeWordlistFromConfig()
         case "3":
             printHints()
+            done = input(f"\n {YELLOW}Press enter when done.")
+            main()
         case "4":
             printConfig()
+            done = input(f"\n {YELLOW}Press enter when done.")
+            main()
         case "5":
             saveConfig()
         case "6":
@@ -596,17 +602,17 @@ def main():
     print(LOGO)
     while True:
         print(f"""\n  {CYAN}----------------------{WHITE}
-    1) Create wordlist interactively
-    2) Create wordlist from config
+    {CYAN}1{WHITE}) Create wordlist interactively
+    {CYAN}2{WHITE}) Create wordlist from config
 
-    3) Show wordlist tips
-    4) Show current config
+    {CYAN}3{WHITE}) Show wordlist tips
+    {CYAN}4{WHITE}) Show current config
 
-    5) Save config
-    6) Load config
-    7) Edit config
+    {CYAN}5{WHITE}) Save config
+    {CYAN}6{WHITE}) Load config
+    {CYAN}7{WHITE}) Edit config
 
-    99) Exit\n  {CYAN}----------------------{WHITE}\n""")
+    {LIGHT_RED}99{WHITE}) Exit\n  {CYAN}----------------------{WHITE}\n""")
 
         option = str(input(f"{WHITE}IWG > "))
         clearConsole()

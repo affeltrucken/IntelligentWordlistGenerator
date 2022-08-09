@@ -9,7 +9,6 @@ from time import time
 from os import system, name, path
 from datetime import datetime
 
-
 YELLOW = Fore.LIGHTYELLOW_EX
 CYAN = Fore.LIGHTCYAN_EX
 WHITE = Fore.LIGHTWHITE_EX
@@ -46,7 +45,7 @@ require_min_pass = 0
 require_max_pass = 64
 
 keywords = {
-    "name": "",
+    "firstname": "",
     "lastname": "",
     "nickname": "",
     "initials": "",
@@ -84,15 +83,15 @@ r_swedish = {
 }
 
 hints = [
-f"{CYAN}- Street names\n    {WHITE}Street names/numbers are more common than you might think.\n",
+f"{CYAN}- Street names\n    {WHITE}Street names/numbers are more common than you might \n    think.\n",
 f"{CYAN}- Relatives\n    {WHITE}Some people use close relatives in their password.\n",
 f"{CYAN}- months \n    {WHITE}A lot of people use words related to a time of year, \n    like a season.\n",
 f"{CYAN}- Games and shows \n    {WHITE}People like to use their favorite games, TV-shows, or \n    characters when creating passwords.\n",
 f"{CYAN}- Animals \n    {WHITE}Try to use an animal as a keyword.\n",
-f"{CYAN}- Sports teams \n    {WHITE}Football or basketball teams and sports are commonly used.\n",
+f"{CYAN}- Sports teams \n    {WHITE}Football or basketball teams and sports are commonly \n    used.",
 f"{CYAN}- The platform \n    {WHITE}Keywords related to the platform that the user created \n    an account on might be used.\n",
 f"{CYAN}- Artits and bands \n    {WHITE}Try the persons favorite bands/artists.\n",
-f"{CYAN}- Company \n    {WHITE}The company the given person works at or something related\n    might be in the password.\n"
+f"{CYAN}- Company \n    {WHITE}The company the given person works at or something \n    related might be in the password.\n"
 ]
 
 keyword_text = [
@@ -155,8 +154,7 @@ common_numbers = [
     "1234567", "12345678", "2000", "2003", "2004",
     "2005", "2006", "2016", "2017", "2018",
     "2019", "2020", "2021", "2022", "2023",
-    "1234567890"
-]
+    "1234567890"]
 
 
 def clearConsole():
@@ -165,7 +163,7 @@ def clearConsole():
 
 def yesNoPrompt(prompt, standard):
     while True:
-        answer = str(input(prompt + ": ")).lower().strip()
+        answer = str(input(f"{prompt}:{YELLOW} ")).lower().strip()
         if not answer:
             answer = standard
         if answer.lower().strip().startswith("y"):
@@ -175,18 +173,22 @@ def yesNoPrompt(prompt, standard):
 
 
 def formatDate(date_string):
-    return datetime.strptime(date_string, "%Y-%m-%d")
+    try:
+        date = datetime.strptime(date_string, "%Y-%m-%d")
+        return date
+    except ValueError:
+        return date_string
 
 
 def inputKeywords():
-    print(f"{LIGHT_RED} Press enter to skip a variable.\n{WHITE}")
+    print(f"{LIGHT_RED} Press enter to skip a variable.\n\n{WHITE}")
     print(f"{YELLOW} Keywords\n {WHITE}Please enter the keywords you want to use.\n")
 
     for key, text in zip(keywords.keys(), keyword_text):
         valid_input = False
 
         while not valid_input:
-            keywords[key] = input(f" {WHITE}{text}: {WHITE}")
+            keywords[key] = input(f" {WHITE}{text}: {YELLOW}")
 
             if key != ("birth" or "partner_birth") or keywords[key] == "":
                 if key != "other_keywords":
@@ -227,46 +229,53 @@ def inputPasswordChoiches():
     print(f"{WHITE} Enter what types of variations of the passwords you want to add.\n")
 
     global use_leet
-    use_leet = yesNoPrompt(f" {WHITE}Add leet variation (changes \"e\" to \"3\", for example) (y/N) ", "n")
+    use_leet = yesNoPrompt(f" {WHITE}Add leet variation (changes \"e\" to \"3\", for example) (y/N)", "n")
 
     global use_special
-    use_special = yesNoPrompt(f" {WHITE}Add special-character variation (changes \"i\" to \"!\", for example) (y/N) ", "n")
+    use_special = yesNoPrompt(f" {WHITE}Add special-character variation (changes \"i\" to \"!\", for example) (y/N)", "n")
 
     global use_numbers
-    use_numbers = yesNoPrompt(f" {WHITE}Append common numbers (123, 69, 420 etc...) (Y/n) ", "y")
+    use_numbers = yesNoPrompt(f" {WHITE}Append common numbers (123, 69, 420 etc...) (Y/n)", "y")
 
     global use_swedish
-    use_swedish = yesNoPrompt(f" {WHITE}Allow Swedish chars (Y/n) ", "y")
+    use_swedish = yesNoPrompt(f" {WHITE}Allow Swedish chars (Y/n)", "y")
 
 
 def inputPasswordRequirements():
-    print(f"\n\n {YELLOW}Password requirements\n")
-
-    global require_min_pass
-    global require_max_pass
-
-    global special_required
-    global number_required
+    print(f"\n\n {YELLOW}Password requirements")
 
     global use_requirements
-    use_requirements = yesNoPrompt(f"\n {WHITE}Set password rules? (recommended) (Y/n) ", "y")
+    use_requirements = yesNoPrompt(f"\n {WHITE}Set password rules? (recommended) (Y/n)", "y")
 
     if use_requirements:
+        print()
         while True:
             try:
-                require_min_pass = int(input(f" Minimum password length: {WHITE}"))
-                require_max_pass = int(input(f" Maximum password length: {WHITE}"))
+                global require_min_pass
+                global require_max_pass
 
-                number_required = yesNoPrompt(" Numbers required? (y/N) ", "n")
-                special_required = yesNoPrompt(" Special characters required? (y/N) ", "n")
+                global special_required
+                global number_required
+
+                require_min_pass = int(input(f" {WHITE}Minimum password length: {YELLOW}"))
+                password_requirements["require_min_pass"] = require_min_pass
+
+                require_max_pass = int(input(f" {WHITE}Maximum password length: {YELLOW}"))
+                password_requirements["require_max_pass"] = require_max_pass
+
+                number_required = yesNoPrompt(f" {WHITE}Numbers required? (y/N)", "n")
+                password_requirements["number_required"] = number_required
+
+                special_required = yesNoPrompt(f" {WHITE}Special characters required? (y/N)", "n")
+                password_requirements["special_required"] = special_required
 
                 break
             except ValueError:
-                print(" Not a valid number.")
+                print(f" {RED}Not a valid number.{WHITE}")
 
 
 def confirmOptions():
-    print(f"\n\n {YELLOW}Confirmation \n")
+    print(f"\n\n {YELLOW}Confirmation")
     while True:
         options_confirmed = yesNoPrompt(f"{WHITE}\n Confirm all options? (Y/n)", "y")
         if options_confirmed:
@@ -285,20 +294,25 @@ def replaceChars(word, replacements):
 def checkDates():
     global valid_birth
     global valid_partner_birth
+
     valid_partner_birth = False
     valid_birth = False
+
     if isinstance(keywords["birth"], datetime):
         global birth_year
         global birth_month
         global birth_day
+
         birth_year = str(keywords["birth"].year)
         birth_month = str(keywords["birth"].month)
         birth_day = str(keywords["birth"].day)
         valid_birth = True
+
     if isinstance(keywords["partner_birth"], datetime):
         global partner_year
         global partner_month
         global partner_day
+
         partner_year = str(keywords["partner_birth"].year)
         partner_month = str(keywords["partner_birth"].month)
         partner_day = str(keywords["partner_birth"].day)
@@ -316,31 +330,52 @@ def addKeywordsToList():
                 all_keywords_list.append(keyword)
         else:
             all_keywords_list.append(value)
-    print(f"\n{WHITE} Using keys: ", end="")
-    for key in all_keywords_list:
-        print(f"{YELLOW}{key}{',' if key != all_keywords_list[-1] else ''} ", end="")
-    print("\n")
+    combo_1 = f"{keywords['firstname']}{keywords['lastname']}"
+    combo_2 = f"{keywords['lastname']}{keywords['firstname']}"
+    combo_3 = f"{keywords['partner_name']}{keywords['firstname']}"
+    combo_4 = f"{keywords['firstname']}{keywords['partner_name']}"
+    combo_5 = f"{keywords['partner_lastname']}{keywords['lastname']}"
+    combo_6 = f"{keywords['lastname']}{keywords['partner_lastname']}"
 
+    for combo in [combo_1, combo_2, combo_3, combo_4, combo_5, combo_6]:
+        if combo not in all_keywords_list:
+            all_keywords_list.append(combo)
+
+    print(f"\n{WHITE} Using keys: ", end="")
+    if len(all_keywords_list) > 1:
+        for key in all_keywords_list:
+            print(f"{YELLOW}{key}{',' if key != all_keywords_list[-1] else ''} ", end="")
+    else:
+        print(f"{YELLOW}{all_keywords_list[0]}", end="")
+    print("\n")
 
 def createFile():
     global wordlist_file
     global wordlist_name
 
-    name = keywords["name"]
-    time = datetime.now().strftime("%H-%M-%S")
+    overwrite = True
+    name = keywords["firstname"]
+    time = datetime.now().strftime("%H.%M.%S")
 
     wordlist_name = f"wordlist_{time}.txt"
-    if keywords["name"]:
+    if keywords["firstname"]:
         wordlist_name = f"{name}_{time}.txt"
+    if path.exists(wordlist_name):
+        overwrite = yesNoPrompt(f"{WHITE}File already exists. This will not overwrite the file, but keep appending \n passwords to it. Continue? (y/N)", "n")
+
+    if not overwrite:
+        return
     wordlist_file = open(wordlist_name, "a")
 
 
+
 def writeToList(key):
-    for password in [
-                f"{key}", f"{key}!",
-                f"{'!' if key[0] != '!' else ''}{key}!",
-                f"{key}?", f"?{key}?", f"{key}.",
-                f".{key}.", f"*{key}*", f"{key}*"]:
+    iters = [
+            f"{key}", f"{key}!",
+            f"{'!' if key[:0] != '!' else ''}{key}!",
+            f"{key}?", f"?{key}?", f"{key}.",
+            f".{key}.", f"*{key}*", f"{key}*"]
+    for password in iters:
         if password not in written_passwords:
             if use_requirements:
                 if number_required:
@@ -360,8 +395,6 @@ def writeToList(key):
 def reverseString(string):
     return string[::-1]
 
-def returnString(string):
-    return string
 
 def lastTwoChars(string):
     return string[-2:]
@@ -397,7 +430,7 @@ def write1(key):
 
 def write2(key, date):
     for w in [key, reverseString(key)]:
-        for f in [returnString, reverseString]:
+        for f in [str, reverseString]:
             if use_swedish:
                 w = replaceChars(key, r_swedish)
             writeToList(w + f(date))
@@ -406,9 +439,9 @@ def write2(key, date):
 
 
 def createWordlist():
-    print(f"""\n
+    print(f"""
  {CYAN}----------------------------
- {WHITE}Interactive wordlist creator
+ {WHITE}Interactive Wordlist Creator
  {CYAN}----------------------------
 """)
     inputKeywords()
@@ -473,7 +506,7 @@ def editConfig():
         print(f"\n{YELLOW} Enter 'c' to confirm options.")
         option = input(f"{WHITE}\n\n Option: ")
         if option in keywords.keys():
-            keywords[option] = input(f"{WHITE}\n Value: ")
+            keywords[option] = input(f"\n {WHITE}Value: ")
             if option in ["partner_birth", "birth"]:
                 keywords[option] = formatDate(keywords[option])
             if option == "other_keywords":
@@ -485,9 +518,9 @@ def editConfig():
                 keywords["other_keywords"] = temp_list
         if option in password_requirements.keys():
             if isinstance(password_requirements[option], bool):
-                password_requirements[option] = yesNoPrompt(" Value (y/n)", "n")
+                password_requirements[option] = yesNoPrompt(f" {WHITE}Value (y/n)", "n")
             else:
-                password_requirements[option] = input(" Value: ")
+                password_requirements[option] = input(f" {WHITE}Value: {YELLOW}")
     clearConsole()
 
 
@@ -504,7 +537,7 @@ def printConfig():
             print(f"    {WHITE}{key}: ", end="")
             for k in keywords["other_keywords"]:
                 print(f"{YELLOW}{k}{(',' if k != keywords[key][-1] else '')} ", end="")
-
+    print()
     print(f"""
   {CYAN}----------------------
   {WHITE}Password rules
@@ -515,7 +548,6 @@ def printConfig():
             print(f"{WHITE}    {key}: {GREEN if value else RED}{value}")
         else:
             print(f"{WHITE}    {key}: {YELLOW}{value}")
-    print("\n")
 
 
 def writeWordlistFromConfig():

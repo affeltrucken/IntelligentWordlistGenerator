@@ -17,6 +17,10 @@ A *personalized* wordlist generator written in Python that creates wordlists bas
 - linkedin-api
 
 ### Installation
+```
+pip3 install -r requirements.txt
+python3 main.py
+```
 
 ### Usage
 

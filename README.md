@@ -23,7 +23,7 @@ A *personalized* wordlist generator written in Python that creates wordlists bas
 * Ability to save and load options and configuration
 * Add leet variations or special character variations
 
-### TODO
+### Todo
 
 - [x] Add ability to set password rules
 - [x] Use LinkedIn API to get info

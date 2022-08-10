@@ -53,4 +53,4 @@ From here, you can use the menu
 
 ## Legal
 
-I, the author, am not responsible for **ANY** damage caused by this software. Please use responsibly.
+DISCLAIMER: This is only for testing and educational purposes and can only be used where strict consent has been given. Do not use this for illegal purposes, period.

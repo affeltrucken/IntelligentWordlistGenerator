@@ -20,6 +20,6 @@ linkedin-api
 * Add leet variations or special character variations
 
 
-### Legal
+## Legal
 
 I, the author, am not responsible for **ANY** damage caused by this software. Please use responsibly.

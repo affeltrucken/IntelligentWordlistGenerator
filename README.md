@@ -5,6 +5,7 @@ A *personalized* wordlist generator written in Python that creates wordlists bas
 ---
 ### Requirements:
 colorama
+
 linkedin-api
 
 ### Usage:

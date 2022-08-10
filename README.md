@@ -18,6 +18,8 @@ A *personalized* wordlist generator written in Python that creates wordlists bas
 
 ## Installation
 ```
+git clone https://github.com/affeltrucken/IntelligentWordlistGenerator
+cd IntelligentWordlistGenerator
 pip3 install -r requirements.txt
 python3 main.py
 ```

@@ -3,11 +3,11 @@ A *personalized* wordlist generator written in Python that creates wordlists bas
 
 
 ---
-Usage:
+###Usage:
 
 `python3 main.py`
 
-Features:
+###Features:
 
 * Specify password requirements/limitations
 * Import data from LinkedIn profile

@@ -4,6 +4,10 @@ A *personalized* wordlist generator written in Python that creates wordlists bas
 
 ## Help
 
+### Important!
+
+The wordlist generation can sometimes be *veeery* slow. It can take up to an hour (unfortunately) if you specify a lot of keywords and use all possible password variations.
+
 ### Requirements
 
 - Python 3.10 or above

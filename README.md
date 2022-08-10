@@ -7,7 +7,10 @@ A *personalized* wordlist generator written in Python that creates wordlists bas
 ### Requirements:
 
 colorama
-linkedin-api
+
+linkedin-api[^1]
+
+[^1]: [GitHub](https://github.com/tomquirk/linkedin-api)
 
 ### Usage:
 

@@ -28,12 +28,7 @@ From here, you can use the menu
 6. Load a configuration from password_requirements.json, password_keys.json, or both.
 7. Edit the current configuration interactively
 
-### Features
-
-* Specify password requirements/limitations
-* Import data from LinkedIn profile
-* Ability to save and load options and configuration
-* Add leet variations or special character variations
+---
 
 ### Todo
 

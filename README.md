@@ -19,4 +19,7 @@ linkedin-api
 * Ability to save and load options and configuration
 * Add leet variations or special character variations
 
-==test== 
+
+### Legal
+
+I, the author, am not responsible for **ANY** damage caused by this software. Please use responsibly.

@@ -17,13 +17,4 @@ linkedin-api
 * Specify password requirements/limitations
 * Import data from LinkedIn profile
 * Ability to save and load options and configuration
-* Add leet variations or special character variations
-
-
-```
-{
-  "firstName": "John",
-  "lastName": "Smith",
-  "age": 25
-}
-``` 
+* Add leet variations or ==special== character variations

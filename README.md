@@ -17,4 +17,6 @@ linkedin-api
 * Specify password requirements/limitations
 * Import data from LinkedIn profile
 * Ability to save and load options and configuration
-* Add leet variations or ==special== character variations
+* Add leet variations or special character variations
+
+==test== 

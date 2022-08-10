@@ -1,6 +1,7 @@
 # IntelligentWordlistGenerator
 Written by: Aldin Smajlovic
 
+&nbsp;
 
 ## Description
 

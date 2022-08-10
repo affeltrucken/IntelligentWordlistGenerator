@@ -193,11 +193,16 @@ def inputKeywords():
         valid_input = False
 
         while not valid_input:
-            keywords[key] = input(f" {WHITE}{text}: {YELLOW}")
+            inp = input(f"{WHITE}{text}: {YELLOW}")
+
+            if keywords[key] != "" and inp == "" or keywords[key] != [] and inp == "":
+                break
+
+            keywords[key] = inp
 
             if key != ("birthdate" or "partner_birthdate") or keywords[key] == "":
                 if key != "other_keywords":
-                    valid_input = True
+                    break
 
                 temp_list = keywords[key].split()
                 keywords["other_keywords"] = []
@@ -208,7 +213,6 @@ def inputKeywords():
                     keywords["other_keywords"].append(extra_key)
 
                 break
-
             try:
                 keywords[key] = formatDate(keywords[key])
                 current = keywords[key]
@@ -359,7 +363,7 @@ def getLinkedInData():
     print(f"\n\n {YELLOW}LinkedIn login (Required for API)")
     email = input(f"\n {WHITE}Enter your LinkedIn email: {YELLOW}")
     password = getpass(f" {WHITE}Enter your LinkedIn password: {YELLOW}")
-    
+
     print(f"\n {YELLOW}Logging in...\n")
     api = Linkedin(email, password)
 
@@ -373,6 +377,9 @@ def getLinkedInData():
 
     data = api.get_profile(target)
 
+    return data
+
+def addLinkedInData(data):
     remove = [
         "geoCountryUrn",
         "geoLocationBackfilled",
@@ -405,12 +412,14 @@ def getLinkedInData():
     data_lower = {}
     for key, value in data.items():
         data_lower[key.lower()] = value
-    
+
     data = data_lower
 
     for key in remove:
         if key in data:
             del data[key]
+
+    pprint(data)
 
     if yesNoPrompt(" Save data to keywords? (y/N)", "n"):
         for key, value in data.items():
@@ -440,7 +449,7 @@ def getLinkedInData():
                 if season not in all_keywords_list:
                     if season not in keywords["other_keywords"]:
                         keywords["other_keywords"].append(season)
-                i += 1    
+                i += 1 
 
 
 def createFile():
@@ -681,7 +690,7 @@ def checkMenuOption(option):
         case "6":
             loadConfig()
         case "7":
-            getLinkedInData()
+            addLinkedInData(getLinkedInData())
         case "8":
             editConfig()
         case "99":

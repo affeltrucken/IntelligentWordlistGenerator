@@ -42,7 +42,7 @@ From here, you can use the menu
 
 ---
 
-### Todo
+## Todo
 
 - [x] Add ability to set password rules
 - [x] Use LinkedIn API to get info

@@ -20,7 +20,7 @@ From here, you can use the menu
 
 ### Options
 
-1. Create a wordlist by entering a set of keywords, such as name, city, country, partner name, birthdate, etc
+1. Create a wordlist by entering a set of keywords, such as name, city, country, and birthdate. You can also specify if you want to add leet variations, or special character variations of the password.
 2. Create a wordlist from config, which is by default empty
 3. Show some tips of keywords you can use when creating your wordlist
 4. Print the current configuration of keywords used and password rules set

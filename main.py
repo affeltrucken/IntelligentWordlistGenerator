@@ -708,7 +708,7 @@ def main():
 
     {LIGHT_RED}99{WHITE}) Exit\n  {CYAN}----------------------{WHITE}\n""")
 
-        option = str(input(f"{WHITE}IWG > "))
+        option = str(input(f" {WHITE}IWG > "))
         clearConsole()
         checkMenuOption(option)
 

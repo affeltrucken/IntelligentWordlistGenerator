@@ -5,7 +5,8 @@ A *personalized* wordlist generator written in Python that creates wordlists bas
 ---
 ### Requirements:
 
-colorama\nlinkedin-api
+colorama
+linkedin-api
 
 ### Usage:
 
@@ -17,3 +18,12 @@ colorama\nlinkedin-api
 * Import data from LinkedIn profile
 * Ability to save and load options and configuration
 * Add leet variations or special character variations
+
+
+```
+{
+  "firstName": "John",
+  "lastName": "Smith",
+  "age": 25
+}
+``` 

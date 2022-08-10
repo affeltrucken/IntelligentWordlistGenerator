@@ -6,7 +6,7 @@ __version__ = "1.4"
 from json import load, dumps
 from colorama import Fore
 from time import time
-from os import system, name, path
+from os import name, path
 from datetime import datetime
 from linkedin_api import Linkedin
 from getpass import getpass
@@ -162,7 +162,7 @@ common_numbers = [
 
 
 def clearConsole():
-    system("cls" if name == "nt" else "clear")
+    print("\033[H\033[J", end="")
 
 
 def yesNoPrompt(prompt, standard):

@@ -1,18 +1,21 @@
 # IntelligentWordlistGenerator
+Written by: Aldin Smajlovic
+
+## Description
+
 A *personalized* wordlist generator written in Python that creates wordlists based on the common patterns of humans when creating passwords. 
 
 
-## Help
 
-## Important
-
-The wordlist generation can sometimes be *veeery* slow. It can take up to an hour (unfortunately) if you specify a lot of keywords and use all possible password variations. Feel free to contribute if you think you could make it faster.
+# Help
 
 ### Requirements
 
 - Python 3.10 or above
 - colorama
 - linkedin-api
+
+### Installation
 
 ### Usage
 

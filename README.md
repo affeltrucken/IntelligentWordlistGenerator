@@ -38,7 +38,8 @@ From here, you can use the menu
 4. Print the current configuration of keywords used and password rules set
 5. Save the current config to a password_requirements.json and password_keys.json
 6. Load a configuration from password_requirements.json, password_keys.json, or both.
-7. Edit the current configuration interactively
+7. Create a set of configuration based on a LinkedIn profile. Credits to
+8. Edit the current configuration interactively
 
 ---
 

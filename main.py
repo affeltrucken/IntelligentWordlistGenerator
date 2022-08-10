@@ -4,11 +4,14 @@ __author__ = "Aldin Smajlovic"
 __version__ = "1.0"
 
 from json import load, dumps
-from turtle import clear
 from colorama import Fore
 from time import time
 from os import system, name, path
 from datetime import datetime
+from linkedin_api import Linkedin
+from getpass import getpass
+from pprint import pprint
+
 
 YELLOW = Fore.LIGHTYELLOW_EX
 CYAN = Fore.LIGHTCYAN_EX
@@ -50,14 +53,14 @@ keywords = {
     "lastname": "",
     "nickname": "",
     "initials": "",
-    "birth": "",
+    "birthdate": "",
     "city": "",
     "country": "",
     "pet_name": "",
     "partner_name": "",
     "partner_lastname": "",
     "partner_nickname": "",
-    "partner_birth": "",
+    "partner_birthdate": "",
     "other_keywords": []
 }
 
@@ -192,7 +195,7 @@ def inputKeywords():
         while not valid_input:
             keywords[key] = input(f" {WHITE}{text}: {YELLOW}")
 
-            if key != ("birth" or "partner_birth") or keywords[key] == "":
+            if key != ("birthdate" or "partner_birthdate") or keywords[key] == "":
                 if key != "other_keywords":
                     valid_input = True
 
@@ -294,36 +297,36 @@ def replaceChars(word, replacements):
 
 
 def checkDates():
-    global valid_birth
-    global valid_partner_birth
+    global valid_birthdate
+    global valid_partner_birthdate
 
-    valid_partner_birth = False
-    valid_birth = False
+    valid_partner_birthdate = False
+    valid_birthdate = False
 
-    if isinstance(keywords["birth"], datetime):
-        global birth_year
-        global birth_month
-        global birth_day
+    if isinstance(keywords["birthdate"], datetime):
+        global birthdate_year
+        global birthdate_month
+        global birthdate_day
 
-        birth_year = str(keywords["birth"].year)
-        birth_month = str(keywords["birth"].month)
-        birth_day = str(keywords["birth"].day)
-        valid_birth = True
+        birthdate_year = str(keywords["birthdate"].year)
+        birthdate_month = str(keywords["birthdate"].month)
+        birthdate_day = str(keywords["birthdate"].day)
+        valid_birthdate = True
 
-    if isinstance(keywords["partner_birth"], datetime):
+    if isinstance(keywords["partner_birthdate"], datetime):
         global partner_year
         global partner_month
         global partner_day
 
-        partner_year = str(keywords["partner_birth"].year)
-        partner_month = str(keywords["partner_birth"].month)
-        partner_day = str(keywords["partner_birth"].day)
-        valid_partner_birth = True
+        partner_year = str(keywords["partner_birthdate"].year)
+        partner_month = str(keywords["partner_birthdate"].month)
+        partner_day = str(keywords["partner_birthdate"].day)
+        valid_partner_birthdate = True
 
 
 def addKeywordsToList():
     for key, value in keywords.items():
-        if not value or key in ["birth", "partner_birth"]:
+        if not value or key in ["birthdate", "partner_birthdate"]:
             continue
         if isinstance(value, list):
             for keyword in value:
@@ -351,6 +354,95 @@ def addKeywordsToList():
         print(f"{YELLOW}{all_keywords_list[0]}", end="")
     print("\n")
 
+
+def getLinkedInData():
+    print(f"\n\n {YELLOW}LinkedIn login (Required for API)")
+    email = input(f"\n {WHITE}Enter your LinkedIn email: {YELLOW}")
+    password = getpass(f" {WHITE}Enter your LinkedIn password: {YELLOW}")
+    
+    print(f"\n {YELLOW}Logging in...\n")
+    api = Linkedin(email, password)
+
+    target = input(f" {WHITE}ID or URL of target: {YELLOW}")
+
+    for url in ["https://www.linkedin.com/in/", "https://linkedin.com/", "www.linkedin.com", "linkedin.com", "linkedin.com", "/in", "/"]:
+        target = target.strip(url)
+
+    print(f" {WHITE}Using target: {YELLOW}{target}")
+    print(f"\n {WHITE}Getting data...")
+
+    data = api.get_profile(target)
+
+    remove = [
+        "geoCountryUrn",
+        "geoLocationBackfilled",
+        "entityUrn",
+        "elt",
+        "headline",
+        "backgroundPicture",
+        "backgroundPictureOriginalImage",
+        "profile_id",
+        "profile_urn",
+        "member_urn",
+        "publications",
+        "certifications",
+        "honors",
+        "industryUrn",
+        "geoLocation",
+        "member_urn",
+        "profile_urn",
+        "profile_id"
+    ]
+
+    profile_keywords = [
+        "firstname",
+        "lastname",
+        "address",
+        "locationname",
+        "geolocationname",
+    ]
+
+    data_lower = {}
+    for key, value in data.items():
+        data_lower[key.lower()] = value
+    
+    data = data_lower
+
+    for key in remove:
+        if key in data:
+            del data[key]
+
+    if yesNoPrompt(" Save data to keywords? (y/N)", "n"):
+        for key, value in data.items():
+            if key in profile_keywords:
+                if key == "locationname":
+                    keywords["country"] = value
+                elif key == "geolocationname":
+                    keywords["city"] = value
+                elif key == "address":
+                    address = data["address"].split()
+                    for value in address:
+                        if value not in keywords["other_keywords"]:
+                            keywords["other_keywords"].append(value)
+                else:
+                    keywords[key] = value
+        if "birthdate" in data:
+            month_int = data["birthdate"]["month"]
+
+            i = 1
+            for month, season in months.items():
+                if i != int(month_int):
+                    i += 1
+                    continue
+                if month not in all_keywords_list:
+                    if month not in keywords["other_keywords"]:
+                        keywords["other_keywords"].append(month)
+                if season not in all_keywords_list:
+                    if season not in keywords["other_keywords"]:
+                        keywords["other_keywords"].append(season)
+                i += 1    
+
+
 def createFile():
     global wordlist_file
     global wordlist_name
@@ -368,7 +460,6 @@ def createFile():
     if not overwrite:
         return
     wordlist_file = open(wordlist_name, "a")
-
 
 
 def writeToList(key):
@@ -417,10 +508,10 @@ def startWrite():
 
 def write1(key):
     writeToList(key)
-    if valid_partner_birth:
+    if valid_partner_birthdate:
         write2(key, partner_year)
-    if valid_birth:
-        write2(key, birth_year)
+    if valid_birthdate:
+        write2(key, birthdate_year)
     if not use_numbers:
         return
     for num in common_numbers:
@@ -464,7 +555,7 @@ def createWordlist():
 
 def saveConfig():
     temp_keys = keywords
-    for k in ["birth", "partner_birth"]:
+    for k in ["birthdate", "partner_birthdate"]:
         temp_keys[k] = str(temp_keys[k]).strip("00:00:00").strip()
     if path.exists(".\\password_keys.json"):
         accept_warning = yesNoPrompt(f"""\n\n{LIGHT_RED} Warning. This will overwrite the current config file(s).
@@ -491,10 +582,10 @@ def loadConfig():
     if path.exists(".\\password_keys.json"):
         with open("password_keys.json", "r", encoding="utf-8") as config:
             keywords = load(config)
-            if keywords["birth"]:
-                keywords["birth"] = formatDate(keywords["birth"])
-            if keywords["partner_birth"]:
-                keywords["partner_birth"] = formatDate(keywords["partner_birth"])
+            if keywords["birthdate"]:
+                keywords["birthdate"] = formatDate(keywords["birthdate"])
+            if keywords["partner_birthdate"]:
+                keywords["partner_birthdate"] = formatDate(keywords["partner_birthdate"])
             print(f"{GREEN}\n  Password keys loaded from password_keys.json.{WHITE}")
         return
     print(f"{RED}\n  password_keys.json not found.{WHITE}")
@@ -509,7 +600,7 @@ def editConfig():
         option = input(f"{WHITE}\n\n Option: {YELLOW}")
         if option in keywords.keys():
             keywords[option] = input(f"\n {WHITE}Value: ")
-            if option in ["partner_birth", "birth"]:
+            if option in ["partner_birthdate", "birthdate"]:
                 keywords[option] = formatDate(keywords[option])
             if option == "other_keywords":
                 temp_list = []
@@ -579,17 +670,19 @@ def checkMenuOption(option):
             writeWordlistFromConfig()
         case "3":
             printHints()
-            done = input(f"\n {YELLOW}Press enter when done.")
+            input(f"\n {YELLOW}Press enter when done.")
             main()
         case "4":
             printConfig()
-            done = input(f"\n {YELLOW}Press enter when done.")
+            input(f"\n {YELLOW}Press enter when done.")
             main()
         case "5":
             saveConfig()
         case "6":
             loadConfig()
         case "7":
+            getLinkedInData()
+        case "8":
             editConfig()
         case "99":
             exit()
@@ -609,8 +702,9 @@ def main():
     {CYAN}4{WHITE}) Show current config
 
     {CYAN}5{WHITE}) Save config
-    {CYAN}6{WHITE}) Load config
-    {CYAN}7{WHITE}) Edit config
+    {CYAN}6{WHITE}) Load config from file
+    {CYAN}7{WHITE}) Load config from LinkedIn 
+    {CYAN}8{WHITE}) Edit config
 
     {LIGHT_RED}99{WHITE}) Exit\n  {CYAN}----------------------{WHITE}\n""")
 

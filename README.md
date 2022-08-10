@@ -13,7 +13,7 @@ A *personalized* wordlist generator written in Python that creates wordlists bas
 ### Usage:
 
 `python3 main.py`
-
+From here, you can use the menu
 ![menu](https://github.com/affeltrucken/IntelligentWordlistGenerator/raw/main/menu.png)
 
 ### Features:

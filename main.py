@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 __author__ = "Aldin Smajlovic"
-__version__ = "1.0"
+__version__ = "1.4"
 
 from json import load, dumps
 from colorama import Fore
@@ -33,7 +33,7 @@ LOGO = f"""{CYAN}
   {GREEN}  / _ \___ _ __   ___ _ __ __ _| |_ ___  _ __
    / /_\/ _ \ '_ \ / _ \ '__/ _` | __/ _ \| '__|
   / /_\\\\  __/ | | |  __/ | | (_| | || (_) | |
-  \____/\___|_| |_|\___|_|  \__,_|\__\___/|_| {LIGHT_RED}v1.3
+  \____/\___|_| |_|\___|_|  \__,_|\__\___/|_| {LIGHT_RED}v{__version__}
 \n\n  {WHITE}Author: {YELLOW}{__author__}{CYAN}\n  {WHITE}Github: {YELLOW}https://github.com/affeltrucken"""
 
 all_keywords_list = []

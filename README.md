@@ -21,12 +21,12 @@ A *personalized* wordlist generator written in Python that creates wordlists bas
 git clone https://github.com/affeltrucken/IntelligentWordlistGenerator
 cd IntelligentWordlistGenerator
 pip3 install -r requirements.txt
-python3 main.py
+python main.py
 ```
 
 ## Usage
 
-`python3 main.py`
+`python main.py`
 
 From here, you can use the menu
 

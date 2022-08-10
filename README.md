@@ -14,6 +14,8 @@ A *personalized* wordlist generator written in Python that creates wordlists bas
 
 `python3 main.py`
 
+![menu](https://github.com/affeltrucken/IntelligentWordlistGenerator/raw/main/menu.png)
+
 ### Features:
 
 * Specify password requirements/limitations

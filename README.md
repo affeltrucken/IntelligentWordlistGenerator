@@ -5,4 +5,4 @@ A *personalized* wordlist generator written in Python that creates wordlists bas
 ---
 Usage:
 
-`python3 main.py`
+> python3 main.py

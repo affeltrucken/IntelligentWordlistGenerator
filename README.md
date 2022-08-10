@@ -10,19 +10,19 @@ A *personalized* wordlist generator written in Python that creates wordlists bas
 
 # Help
 
-### Requirements
+## Requirements
 
 - Python 3.10 or above
 - colorama
 - linkedin-api
 
-### Installation
+## Installation
 ```
 pip3 install -r requirements.txt
 python3 main.py
 ```
 
-### Usage
+## Usage
 
 `python3 main.py`
 

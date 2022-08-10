@@ -39,7 +39,7 @@ From here, you can use the menu
 - [x] Add ability to set password rules
 - [x] Use LinkedIn API to get info
 - [ ] Use Facebook API to get info
-- [ ] Clean up some functions
+- [ ] Make some functions cleaner
 
 ## Legal
 

@@ -42,6 +42,8 @@ From here, you can use the menu
 8. Edit the current configuration interactively
 
 ---
+## Known bugs
+- As of right now, saving and loading configs seems to be unreliable or it doesn't work at all.
 
 ## Todo
 

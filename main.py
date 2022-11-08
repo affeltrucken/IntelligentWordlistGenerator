@@ -339,6 +339,7 @@ def addKeywordsToList():
                 all_keywords_list.append(keyword)
         else:
             all_keywords_list.append(value)
+
     combo_1 = f"{keywords['firstname']}{keywords['lastname']}"
     combo_2 = f"{keywords['lastname']}{keywords['firstname']}"
     combo_3 = f"{keywords['partner_name']}{keywords['firstname']}"
@@ -482,15 +483,16 @@ def writeToList(key):
             if use_requirements:
                 if number_required:
                     if not any(char.isdigit() for char in password):
-                        return
+                        continue
                 if special_required:
                     if all((char.isdigit() or char.isalpha) for char in password):
-                        return
+                        continue
                 if require_max_pass >= len(password) >= require_min_pass:
-                    wordlist_file.write(password + "\n")
-                    written_passwords.append(password)
+                    wordlist_file.write(f"{password}\n")
+                    written_passwords.append(f"{password}")
+                
             else:
-                wordlist_file.write(password + "\n")
+                wordlist_file.write(f"{password}\n")
                 written_passwords.append(password)
 
 
@@ -557,7 +559,7 @@ def createWordlist():
     print(f"\n {YELLOW}Writing to {wordlist_name}... this may take a while.")
     startWrite()
     print(f"""\n{GREEN} {len(written_passwords)} lines written to {wordlist_name} in {
-    round(time() - start_time, 5)
+        round(time() - start_time, 5)
     } seconds\n\n{WHITE}""")
     wordlist_file.close()
 

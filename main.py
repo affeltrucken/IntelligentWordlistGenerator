@@ -477,7 +477,8 @@ def writeToList(key):
             f"{key}", f"{key}!",
             f"{'!' if key[:0] != '!' else ''}{key}!",
             f"{key}?", f"?{key}?", f"{key}.",
-            f".{key}.", f"*{key}*", f"{key}*"]
+            f".{key}.", f"*{key}*", f"{key}*"
+    ]
     for password in iters:
         if password not in written_passwords:
             if use_requirements:
@@ -527,8 +528,10 @@ def write1(key):
         return
     for num in common_numbers:
         for w in [key, key * 2 if len(key) < 5 else key]:
+            writeToList(w + "_" + num)
             writeToList(w + num)
         for w in [num, num * 2 if len(num) < 4 else num]:
+            writeToList(w + "_" + num)
             writeToList(w + key)
 
 

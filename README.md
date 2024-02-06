@@ -44,7 +44,7 @@ From here, you can use the menu
 ---
 ## Known bugs
 - As of right now, saving and loading configs seems to be unreliable or it doesn't work at all.
-- Colors in the terminal is do not if executed on Windows. To fix this, go to HKEY_CURRENT_USER\Console and add a key called VirtualTerminalLevel with the DWORD value of 1.
+- Colors in the terminal do not work if script is executed on Windows. To fix this, go to HKEY_CURRENT_USER\Console and add a key called VirtualTerminalLevel with the DWORD value of 1.
 
 ## Todo
 

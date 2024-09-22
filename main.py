@@ -480,21 +480,21 @@ def writeToList(key):
             f".{key}.", f"*{key}*", f"{key}*"
     ]
     for password in iters:
-        if password not in written_passwords:
-            if use_requirements:
-                if number_required:
-                    if not any(char.isdigit() for char in password):
-                        continue
-                if special_required:
-                    if all((char.isdigit() or char.isalpha) for char in password):
-                        continue
-                if require_max_pass >= len(password) >= require_min_pass:
-                    wordlist_file.write(f"{password}\n")
-                    written_passwords.append(f"{password}")
-                
-            else:
+        if password in written_passwords:
+            continue    
+        if use_requirements:
+            if number_required:
+                if not any(char.isdigit() for char in password):
+                    continue
+            if special_required:
+                if all((char.isdigit() or char.isalpha) for char in password):                        
+                    continue
+            if require_max_pass >= len(password) >= require_min_pass:
                 wordlist_file.write(f"{password}\n")
-                written_passwords.append(password)
+                written_passwords.append(f"{password}")                
+        else:
+            wordlist_file.write(f"{password}\n")
+            written_passwords.append(password)
 
 
 def reverseString(string):
@@ -574,14 +574,15 @@ def saveConfig():
     if path.exists(".\\password_keys.json"):
         accept_warning = yesNoPrompt(f"""\n\n{LIGHT_RED} Warning. This will overwrite the current config file(s).
  Continue? (y/N) """, "n")
-        if accept_warning:
-            config_json = dumps(temp_keys, indent = 4)
-            with open ("password_keys.json", "w") as config:
-                config.write(config_json)
-            rules_json = dumps(password_requirements, indent = 4)
-            with open ("password_requirements.json", "w") as rules:
-                rules.write(rules_json)
-            print(f"{GREEN}\n  Config saved successfully")
+        if not accept_warning:
+            continue
+        config_json = dumps(temp_keys, indent = 4)
+        with open ("password_keys.json", "w") as config:
+            config.write(config_json)
+        rules_json = dumps(password_requirements, indent = 4)
+        with open ("password_requirements.json", "w") as rules:
+            rules.write(rules_json)
+        print(f"{GREEN}\n  Config saved successfully")
 
 
 def loadConfig():
@@ -593,6 +594,7 @@ def loadConfig():
             print(f"{GREEN}\n  Password requirements loaded from password_requirements.json.{WHITE}")
     else:
         print(f"{RED}\n  password_requirements.json not found.{WHITE}")
+    
     if path.exists(".\\password_keys.json"):
         with open("password_keys.json", "r", encoding="utf-8") as config:
             keywords = load(config)
@@ -612,17 +614,18 @@ def editConfig():
         printConfig()
         print(f"\n{YELLOW} Enter 'c' to confirm options.")
         option = input(f"{WHITE}\n\n Option: {YELLOW}")
-        if option in keywords.keys():
-            keywords[option] = input(f"\n {WHITE}Value: ")
-            if option in ["partner_birthdate", "birthdate"]:
-                keywords[option] = formatDate(keywords[option])
-            if option == "other_keywords":
-                temp_list = []
-                for k in keywords["other_keywords"].split():
-                    if k in temp_list:
-                        continue
-                    temp_list.append(k)
-                keywords["other_keywords"] = temp_list
+        if option not in keywords.keys():
+            continue
+        keywords[option] = input(f"\n {WHITE}Value: ")
+        if option in ["partner_birthdate", "birthdate"]:
+            keywords[option] = formatDate(keywords[option])
+        if option == "other_keywords":
+            temp_list = []
+            for k in keywords["other_keywords"].split():
+            if k in temp_list:
+                    continue
+                temp_list.append(k)
+            keywords["other_keywords"] = temp_list
         if option in password_requirements.keys():
             if isinstance(password_requirements[option], bool):
                 password_requirements[option] = yesNoPrompt(f" {WHITE}Value (y/n)", "n")

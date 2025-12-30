@@ -1,3 +1,7 @@
+# THIS CODE SUCKS AND IS SLOW
+
+---
+
 # IntelligentWordlistGenerator
 Written by: Aldin Smajlovic
 
